@@ -1,0 +1,58 @@
+{
+  "ai_engineer": {
+    "name": "Jordan Chen",
+    "title": "Senior AI & Machine Learning Engineer",
+    "summary": "Specialized in LLM Agents, Multi-Agent Orchestration (LangGraph, AutoGen), RAG architectures with hybrid search, and production ML pipelines. 5+ years shipping enterprise AI solutions.",
+    "skills": ["Python", "PyTorch", "LangChain", "LangGraph", "Vector DBs (Chroma, Qdrant, Milvus)", "FastAPI", "Docker", "RAG Triad", "Function Calling", "Fine-tuning (LoRA, QLoRA)"],
+    "experience": [
+      {
+        "role": "Lead AI Engineer",
+        "company": "Nexus Cognitive",
+        "duration": "2023 - Present",
+        "highlights": [
+          "Architected an autonomous customer support multi-agent system handling 120,000 queries/day with 94% first-contact resolution.",
+          "Implemented hybrid RAG combining BM25 sparse search and text-embedding-3-large with Cohere cross-encoder reranking, reducing hallucination by 42%.",
+          "Engineered tool-calling safety sandboxes with dynamic schema validation and token budget guards."
+        ]
+      },
+      {
+        "role": "Machine Learning Engineer",
+        "company": "DataVibe Analytics",
+        "duration": "2021 - 2023",
+        "highlights": [
+          "Developed distributed feature store and low-latency inference endpoints serving 45ms P99 responses via Triton Inference Server.",
+          "Fine-tuned open-source Llama-2-13B models using PEFT/LoRA for domain-specific contract risk extraction."
+        ]
+      }
+    ],
+    "education": "B.S. in Computer Science, UC Berkeley"
+  },
+  "fullstack_engineer": {
+    "name": "Sarah Miller",
+    "title": "Senior Full-Stack Software Engineer",
+    "summary": "Full-stack engineer with deep expertise in modern React 19, TypeScript, Node.js/Go microservices, and distributed PostgreSQL/Redis architectures. Passionate about web performance and system reliability.",
+    "skills": ["TypeScript", "React", "Next.js", "Node.js", "Go", "PostgreSQL", "Redis", "Kafka", "Docker", "Kubernetes", "GraphQL", "Tailwind CSS"],
+    "experience": [
+      {
+        "role": "Senior Software Engineer",
+        "company": "HyperFlow Cloud",
+        "duration": "2022 - Present",
+        "highlights": [
+          "Led modernization of enterprise analytics dashboard to React Server Components, decreasing initial bundle size by 65% and improving LCP from 3.2s to 0.9s.",
+          "Engineered distributed event ingestion pipeline processing 25,000 events/sec using Kafka and Go consumers writing to partitioned PostgreSQL shards.",
+          "Eliminated database deadlock cascades during flash sales by implementing Redis distributed locks and optimistic concurrency control."
+        ]
+      },
+      {
+        "role": "Software Engineer",
+        "company": "SaaSMatrix",
+        "duration": "2020 - 2022",
+        "highlights": [
+          "Built real-time collaboration canvas using WebSockets and operation-based CRDTs, supporting up to 40 concurrent users per whiteboard.",
+          "Maintained 99.98% uptime SLA across 12 microservices."
+        ]
+      }
+    ],
+    "education": "B.Tech in Computer Engineering, University of Michigan"
+  }
+}

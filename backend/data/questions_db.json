@@ -1,0 +1,150 @@
+[
+  {
+    "id": "ai_rag_1",
+    "track": "ai_agentic",
+    "topic": "RAG & Vector Retrieval",
+    "difficulty": "Senior",
+    "company": "OpenAI / Anthropic",
+    "question": "How would you design an enterprise-scale RAG system for 10M+ technical documents? Walk me through chunking strategies, embedding selection, hybrid search (dense + sparse), and mitigating hallucinations through semantic reranking.",
+    "context_hint": "Focus on semantic chunking vs fixed-token, BM25 + Vector reciprocal rank fusion (RRF), cross-encoder rerankers, and citation attribution.",
+    "expected_rubric": [
+      "Semantic chunking or sliding window chunking with metadata preservation",
+      "Hybrid search combining sparse keyword (BM25) and dense embeddings",
+      "Reciprocal Rank Fusion (RRF) or cross-encoder reranking (e.g., Cohere/bge-reranker)",
+      "Context compression and prompt stuffing mitigation",
+      "Grounding & citation verification to eliminate hallucinations"
+    ],
+    "starter_code": "def hybrid_rerank(dense_results, sparse_results, top_k=5):\n    # Implement Reciprocal Rank Fusion (RRF) for dense and sparse results\n    scores = {}\n    k_const = 60\n    # Your implementation here\n    return sorted(scores.items(), key=lambda x: x[1], reverse=True)[:top_k]\n"
+  },
+  {
+    "id": "ai_agent_2",
+    "track": "ai_agentic",
+    "topic": "Autonomous Multi-Agent Architecture",
+    "difficulty": "Staff",
+    "company": "Google DeepMind",
+    "question": "Explain how you would architect a Multi-Agent System where autonomous agents collaborate with tools to solve complex multi-step workflows. How do you handle infinite loops, state transitions, tool execution idempotency, and agent communication protocols?",
+    "context_hint": "Discuss graph-based state management (LangGraph/StateGraph), Supervisor vs Peer-to-Peer patterns, reflection loops, and safety guards.",
+    "expected_rubric": [
+      "State management with explicit checkpointing and immutable graph states",
+      "Supervisor or hierarchical delegation pattern vs decentralized consensus",
+      "Cycle detection, maximum recursion limits, and fallback deterministic handlers",
+      "Schema-validated tool calling with idempotency tokens and sandbox execution",
+      "Human-in-the-loop (HITL) checkpoints for high-risk actions"
+    ]
+  },
+  {
+    "id": "ai_eval_3",
+    "track": "ai_agentic",
+    "topic": "LLM Evaluation & Guardrails",
+    "difficulty": "Mid",
+    "company": "Meta",
+    "question": "How do you evaluate an LLM application in production where traditional unit tests fail? Differentiate between LLM-as-a-judge, reference-based metrics, and RAG triad metrics (Faithfulness, Answer Relevance, Context Relevance).",
+    "context_hint": "Address deterministic evaluation vs probabilistic evaluation, synthetic test generation, and guardrail latency.",
+    "expected_rubric": [
+      "RAG Triad: Context Relevance, Groundedness/Faithfulness, and Answer Relevance",
+      "LLM-as-a-judge with chain-of-thought grading rubrics and calibration",
+      "Deterministic heuristics: regex, toxicity filters, PII redaction",
+      "Golden dataset curation and continuous evaluation in CI/CD pipelines"
+    ]
+  },
+  {
+    "id": "fs_react_1",
+    "track": "fullstack_swe",
+    "topic": "Frontend Performance & React 19 Internals",
+    "difficulty": "Senior",
+    "company": "Meta",
+    "question": "Explain React's reconciliation algorithm, Virtual DOM diffing heuristics, and how React 19 Server Components fundamentally change hydration and client bundle sizes. How would you debug an insidious re-render loop in a complex dashboard?",
+    "context_hint": "Mention fiber architecture, keys heuristic, React Compiler/useMemo, streaming SSR, and React Profiler flame graphs.",
+    "expected_rubric": [
+      "Fiber architecture: cooperative scheduling, priority lanes, and reconciliation diffing heuristics",
+      "React Server Components (RSC) executing on server with zero bundle weight on client",
+      "Hydration mismatches and streaming HTML with Suspense boundaries",
+      "Profilers (React DevTools flame graph, memoization pitfalls, object reference stability)"
+    ],
+    "starter_code": "// Debug this custom hook causing unnecessary re-renders\nfunction useDebouncedData(query, fetcher) {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    const timer = setTimeout(() => {\n      fetcher(query).then(setData);\n    }, 300);\n    return () => clearTimeout(timer);\n  }, [query, fetcher]); // Notice fetcher reference volatility!\n  return data;\n}"
+  },
+  {
+    "id": "fs_db_2",
+    "track": "fullstack_swe",
+    "topic": "Database Concurrency & Indexing",
+    "difficulty": "Senior",
+    "company": "Stripe",
+    "question": "A high-velocity payment endpoint is suffering from deadlocks and connection pool exhaustion under 15,000 requests/second. How do you diagnose whether the issue is row-level locking, unindexed composite queries, or connection leak? How do you resolve it?",
+    "context_hint": "Cover EXPLAIN ANALYZE, isolation levels (Read Committed vs Serializable), SELECT FOR UPDATE SKIP LOCKED, connection pooling (PgBouncer), and idempotency keys.",
+    "expected_rubric": [
+      "Analysis via EXPLAIN ANALYZE, pg_stat_activity, and lock tree inspection",
+      "Transaction isolation levels and pessimistic vs optimistic concurrency control",
+      "SELECT FOR UPDATE SKIP LOCKED or idempotent worker queues",
+      "PgBouncer / connection pooling tuning and keep-alive thresholds",
+      "Composite B-tree indexing following the leftmost prefix rule"
+    ]
+  },
+  {
+    "id": "sys_url_1",
+    "track": "system_design",
+    "topic": "Distributed URL Shortener (TinyURL)",
+    "difficulty": "Senior",
+    "company": "Amazon / Microsoft",
+    "question": "Design a globally distributed URL shortener service handling 500 million new URLs/month and 5 billion redirects/month with sub-10ms redirect latency. Walk through capacity estimation, Base62 encoding vs Key Generation Service (KGS), cache strategy, and database sharding.",
+    "context_hint": "Discuss read-to-write ratio (10:1), distributed unique ID generator (Snowflake/KGS), Redis cluster caching, and Geodistributed Anycast routing.",
+    "expected_rubric": [
+      "Capacity estimation: 500M writes/mo, 5B reads/mo, storage & network bandwidth sizing",
+      "Key generation: Base62 hashing vs pre-generated Range Key Service (KGS) to avoid collisions",
+      "Multi-tier caching: Redis cluster with 80/20 Pareto rule, LRU eviction, and sub-10ms reads",
+      "Database schema & NoSQL/Relational partitioning by hash(short_key)",
+      "Global CDN edge redirects and Anycast DNS routing"
+    ],
+    "starter_canvas": {
+      "nodes": ["Client", "CDN / Anycast DNS", "API Gateway", "KGS Service", "Redis Cache Cluster", "Distributed DB Shards"],
+      "connections": ["Client -> CDN", "CDN -> API Gateway", "API Gateway -> Redis Cache", "API Gateway -> Distributed DB Shards"]
+    }
+  },
+  {
+    "id": "sys_collab_2",
+    "track": "system_design",
+    "topic": "Real-time Collaborative Canvas (Figma / Google Docs)",
+    "difficulty": "Staff",
+    "company": "Figma / Google",
+    "question": "Design the real-time sync engine for a collaborative whiteboard application with 50 concurrent editors per document. Compare Operational Transformation (OT) vs Conflict-free Replicated Data Types (CRDTs). How do you handle offline editing and network partition reconciliation?",
+    "context_hint": "Focus on state-based vs operation-based CRDTs (e.g. Yjs / Automerge), WebSocket state gateways, vector clocks, and snapshotting.",
+    "expected_rubric": [
+      "Deep comparison of OT (centralized server coordination) vs CRDT (decentralized eventual consistency)",
+      "State-based (CvRDT) vs operation-based (CmRDT) representations",
+      "WebSocket gateway architecture with room-level pub/sub (Redis / Erlang OTP)",
+      "Handling offline reconnection with Lamport timestamps / Vector clocks",
+      "Compaction, garbage collection, and persistent document snapshots"
+    ]
+  },
+  {
+    "id": "beh_disagree_1",
+    "track": "behavioral_star",
+    "topic": "Technical Disagreement & Conflict Resolution",
+    "difficulty": "Mid / Senior",
+    "company": "Amazon (Leadership Principles)",
+    "question": "Tell me about a time when you strongly disagreed with a tech lead or architect regarding an engineering direction. How did you advocate for your point of view, what data did you gather, and what was the ultimate resolution?",
+    "context_hint": "Structure your answer using the STAR method (Situation, Task, Action, Result). Highlight 'Have Backbone; Disagree and Commit', data-driven prototyping, and team cohesion.",
+    "expected_rubric": [
+      "Clear STAR structure: Situation, Task, Action, Result",
+      "Objective, data-driven approach (benchmarks, POC, user impact) rather than ego",
+      "Empathetic listening to the other party's constraints and priorities",
+      "Graceful alignment: Disagree and commit or reaching a superior hybrid solution",
+      "Measurable positive business or architectural outcome"
+    ]
+  },
+  {
+    "id": "beh_outage_2",
+    "track": "behavioral_star",
+    "topic": "High-Severity Production Incident & Ownership",
+    "difficulty": "Senior / Staff",
+    "company": "Google (Site Reliability)",
+    "question": "Describe the most critical production outage or data-loss incident that occurred on your watch. Walk me through your real-time triage steps, communication with executive stakeholders, root cause analysis (5 Whys), and the blameless post-mortem actions you instituted.",
+    "context_hint": "Focus on incident command protocol, blast radius mitigation (kill switches, rolling back), transparent communication, and preventative engineering.",
+    "expected_rubric": [
+      "Immediate triage: Stop the bleeding (rollback, circuit breakers) before debugging root cause",
+      "Clear incident communication: Status pages, executive briefing, designated incident commander",
+      "Systematic root cause analysis (5 Whys, timeline reconstruction)",
+      "Blameless post-mortem culture focusing on process/system safeguards rather than human error",
+      "Actionable engineering fixes (automated canary analysis, chaos engineering, alert tuning)"
+    ]
+  }
+]
